@@ -1,0 +1,26 @@
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	return 301 https://$host$request_uri;
+
+}
+
+server {
+	listen 443 ssl;
+	listen [::]:443 ssl;
+
+	ssl_certificate_key /etc/nginx/ssl/mykey.key;
+	ssl_certificate /etc/nginx/ssl/mycert.pem;
+	
+	index index.php index.html index.htm;
+		
+location / {
+		autoindex on;
+		try_files $uri $uri/ =404;
+	}
+ 
+
+	location ~ /\.ht {
+		deny all;
+	}
+}
